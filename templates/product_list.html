@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %}Товары{% endblock %} {% block content %}
+<table>
+	<thead>
+		<tr>
+			<th>Фото</th>
+			<th>Наименование</th>
+			<th>Категория</th>
+			<th>Описание</th>
+			<th>Производитель</th>
+			<th>Поставщик</th>
+			<th>Цена</th>
+			<th>Ед. изм.</th>
+			<th>На складе</th>
+			<th>Скидка</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for product in products %}
+		<tr
+			class="{% if product.discount > 15 %}row-discount{% endif %} {% if product.stock_quantity == 0 %}row-outofstock{% endif %} product-row"
+		>
+			<td>
+				<img src="" alt="{{ product.name }}" />
+			</td>
+			<td><strong>{{ product.name }}</strong></td>
+			<td>{{ product.category }}</td>
+			<td>{{ product.description|truncatewords:6 }}</td>
+			<td>{{ product.manufacturer }}</td>
+			<td>{{ product.supplier }}</td>
+			<td>
+				{% if product.discount > 0 %}
+				<span>{{ product.price }} ₽</span><br />
+				<span>{{ product.final_price|floatformat:2 }} ₽</span>
+				{% else %}
+				<span>{{ product.price }} ₽</span>
+				{% endif %}
+			</td>
+			<td>{{ product.unit_type }}</td>
+			<td>{{ product.stock_quantity }}</td>
+			<td>{{ product.discount }}%</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
